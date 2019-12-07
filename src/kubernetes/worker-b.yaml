@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    system: resilient-integration
+    app: worker-b
+    version: "1.0"
+  name: worker-b
+  namespace: resilient-integration
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        system: resilient-integration
+        app: worker-b
+        version: "1.0"
+    spec:
+      containers:
+      - env:
+        - name: RESILIENT_INTEGRATION_ENVIRONMENT
+          value: Production
+        image: resilient-integration/worker-b:1.0
+        imagePullPolicy: IfNotPresent
+        name: worker-b
+      restartPolicy: Always
+
