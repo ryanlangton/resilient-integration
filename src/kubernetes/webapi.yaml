@@ -20,7 +20,7 @@ spec:
       - env:
         - name: ASPNETCORE_ENVIRONMENT
           value: Production
-        image: pitstop/webapi:1.0
+        image: resilient-integration/api:1.0
         imagePullPolicy: IfNotPresent
         name: webapi
         ports:

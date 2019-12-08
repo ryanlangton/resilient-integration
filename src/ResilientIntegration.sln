@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "web-api\WebApi.csproj", "{6FF35DC1-4340-461A-8D3F-715663A53B55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResilientIntegration.Api", "web-api\ResilientIntegration.Api.csproj", "{6FF35DC1-4340-461A-8D3F-715663A53B55}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkerA", "workers\worker-a\WorkerA.csproj", "{B78AC18F-939B-4E2C-8519-11E6DC17B333}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResilientIntegration.WorkerA", "workers\worker-a\ResilientIntegration.WorkerA.csproj", "{B78AC18F-939B-4E2C-8519-11E6DC17B333}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResilientIntegrationCore", "ResilientIntegrationCore\ResilientIntegrationCore.csproj", "{A7DBC68C-B7A9-4A6C-AA14-FDFA4CE42DC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResilientIntegration.Core", "core\ResilientIntegration.Core.csproj", "{77E96AC3-37A9-499A-A6E4-D2B3EFB51974}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{B78AC18F-939B-4E2C-8519-11E6DC17B333}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B78AC18F-939B-4E2C-8519-11E6DC17B333}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B78AC18F-939B-4E2C-8519-11E6DC17B333}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A7DBC68C-B7A9-4A6C-AA14-FDFA4CE42DC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A7DBC68C-B7A9-4A6C-AA14-FDFA4CE42DC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A7DBC68C-B7A9-4A6C-AA14-FDFA4CE42DC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A7DBC68C-B7A9-4A6C-AA14-FDFA4CE42DC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77E96AC3-37A9-499A-A6E4-D2B3EFB51974}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77E96AC3-37A9-499A-A6E4-D2B3EFB51974}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77E96AC3-37A9-499A-A6E4-D2B3EFB51974}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77E96AC3-37A9-499A-A6E4-D2B3EFB51974}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

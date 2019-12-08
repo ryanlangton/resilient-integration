@@ -5,3 +5,15 @@ This project is an example architecture for integrations. It uses Web API and me
 Architecture:
 
 ![architecture](images/architecture.png)
+
+# Run instructions
+
+- Install prerequisites Node.js, docker, docker-machine, powershell
+- execute RebuildAllDockerImages.sh or .ps1
+- execute .\kubernetes\start-all.sh or .ps1
+- Run the API and workers locally, or in docker
+
+# How to view (once running)
+
+- RabbitMQ: http://localhost:15672/#/channels
+- SEQ: http://localhost:5341/#/events
