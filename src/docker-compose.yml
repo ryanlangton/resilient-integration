@@ -33,25 +33,25 @@ services:
     environment:
       - ACCEPT_EULA=Y 
 
-  resilientintegrationapi:
-    image: resilient-integration/api:1.0
-    build: web-api
-    depends_on:
-      - rabbitmq
-      - sqlserver
-    ports:
-      - "5000"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Production
+  # resilientintegrationapi:
+  #   image: resilient-integration/api:1.0
+  #   build: web-api
+  #   depends_on:
+  #     - rabbitmq
+  #     - sqlserver
+  #   ports:
+  #     - "5000"
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Production
 
-  workera:
-    image: resilient-integration/worker-a:1.0
-    build: workers/worker-a
-    container_name: worker-a
-    depends_on:
-      - rabbitmq
-    environment:
-      - DOTNET_ENVIRONMENT=Production
+  # workera:
+  #   image: resilient-integration/worker-a:1.0
+  #   build: workers/worker-a
+  #   container_name: worker-a
+  #   depends_on:
+  #     - rabbitmq
+  #   environment:
+  #     - DOTNET_ENVIRONMENT=Production
 
 volumes:
   sqlserverdata:

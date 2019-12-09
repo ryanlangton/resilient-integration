@@ -13,7 +13,7 @@ Architecture:
 - execute .\kubernetes\start-all.sh or .ps1
 - Run the API and workers locally, or in docker
 
-# How to view (once running)
+# Monitoring
 
 - RabbitMQ: http://localhost:15672/#/channels
 - SEQ: http://localhost:5341/#/events
