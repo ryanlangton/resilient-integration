@@ -10,7 +10,7 @@ Architecture:
 
 # Assumption
 
-<em>Wherever a failure can occur, it will, eventually.</em>
+<em>"If anything can go wrong, it will." - Murphy's Law</em>
 
 No system (even our own code) is immune to unforeseen errors. By moving failure points to the other side of a message bug and using an error queue, we are able to retry jobs, redeploy fixes before rerunning, or pull jobs down to lower environments for easy developer testing. We're also able to scale workers easily to adjust to workload.
 
