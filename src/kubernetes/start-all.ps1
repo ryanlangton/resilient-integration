@@ -22,5 +22,4 @@ if ($linkerd) {
 
 kubectl apply `
     -f ./rabbitmq.yaml `
-    -f ./logserver.yaml `
-    -f ./sqlserver.yaml
+    -f ./logserver.yaml
