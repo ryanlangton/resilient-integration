@@ -1,6 +1,6 @@
 # resilient-integration
 
-Ironclad integration architecture, developer and ops friendly.
+Ironclad integration architecture, developer and ops friendly. Uses [MassTransit](masstransit-project.com) for integrations.
 
 This project is an example architecture for system integrations. It uses Web API and message queueing to create a system completely resilient to any failures. Message handlers can be easily moved across workers, workers can be scaled up and/or out, and no attempts to run integration processing will ever be lost.
 
@@ -17,11 +17,10 @@ No system (even our own code) is immune to unforeseen errors. By moving failure 
 # Run instructions
 
 - Install prerequisites Node.js, docker, docker-machine, powershell
-- execute RebuildAllDockerImages.sh or .ps1
-- execute .\kubernetes\start-all.sh or .ps1
-- Run the API and workers locally, or in docker
+- From command line, run `docker-compose up`
+- Debug ResilientIntegration.Api (Web), and ResilientIntegration.Worker* (Workers)
 
 # Monitoring
 
-- RabbitMQ: http://localhost:15672/#/channels
-- SEQ: http://localhost:5341/#/events
+- RabbitMQ: http://localhost:15672/#/channels (guest/guest)
+- SEQ: http://localhost:5342/#/events 
