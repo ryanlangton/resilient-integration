@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using MassTransit;
+using Microsoft.Extensions.Logging;
 
 namespace ResilientIntegration.Core.Infrastructure
 {
@@ -20,6 +21,8 @@ namespace ResilientIntegration.Core.Infrastructure
                     {
                         ec.ConfigureConsumers(context);
                     });
+                    var logFactory = context.Resolve<ILoggerFactory>();
+                    cfg.SetLoggerFactory(logFactory);
                 });
             })
             .SingleInstance()

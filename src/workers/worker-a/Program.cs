@@ -33,17 +33,6 @@ namespace ResilientIntegration.WorkerA
                     builder.RegisterModule<WorkerAModule>();
                     builder.RegisterModule<BusModule>();
                 }))
-                .ConfigureLogging(loggingBuilder =>
-                {
-                    LogContext.ConfigureCurrentLogContext();
-                    var configuration = new ConfigurationBuilder()
-                        .AddJsonFile("appsettings.json")
-                        .Build();
-                    var logger = new LoggerConfiguration()
-                        .ReadFrom.Configuration(configuration)
-                        .CreateLogger();
-                    loggingBuilder.AddSerilog(logger, dispose: true);
-                })
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddAutofac();
@@ -54,6 +43,5 @@ namespace ResilientIntegration.WorkerA
                     services.AddHostedService<Worker>();
                 })
                 .UseSerilog();
-
     }
 }

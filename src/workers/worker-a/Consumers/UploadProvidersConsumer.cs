@@ -20,12 +20,12 @@ namespace ResilientIntegration.WorkerA.Consumers
         public async Task Consume(ConsumeContext<UploadProvidersCommand> context)
         {
             //throw new Exception("some random exception happened!");
-            var logPath = Path.GetTempFileName();
-            var logFile = File.Create($"{logPath}.json");
-            var logWriter = new StreamWriter(logFile);
-            await logWriter.WriteLineAsync(JsonConvert.SerializeObject(context.Message, Formatting.Indented));
-            _logger.LogInformation($"Wrote providers to {logFile.Name}");
-            logWriter.Dispose();
+            var filePath = Path.GetTempFileName();
+            var outFile = File.Create($"{filePath}.json");
+            var writer = new StreamWriter(outFile);
+            await writer.WriteLineAsync(JsonConvert.SerializeObject(context.Message, Formatting.Indented));
+            _logger.LogInformation($"Wrote providers to {outFile.Name}");
+            writer.Dispose();
         }
     }
 }
