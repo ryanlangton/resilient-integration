@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace ResilientIntegration.Core.Commands
+namespace ResilientIntegration.Api.Model
 {
-    public class UploadProvidersCommand
+    public class UploadProvidersRequest
     {
-        public Provider[] Providers { get; set; }
+        public ProviderRequest[] Providers { get; set; }
     }
 
-    public class Provider
+    public class ProviderRequest
     {
         public long Index { get; set; }
         public Guid Guid { get; set; }

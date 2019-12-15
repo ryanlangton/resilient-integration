@@ -1,51 +1,65 @@
+using AutoMapper;
+using Autofac;
 using MassTransit;
-using MassTransit.ExtensionsDependencyInjectionIntegration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
+using Microsoft.Extensions.Logging;
+using ResilientIntegration.Api;
+using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Mvc;
+using ResilientIntegration.Api.Filters;
 
 namespace WebApi
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IHostingEnvironment _env;
+        private readonly IConfiguration _config;
+        private readonly ILoggerFactory _loggerFactory;
+
+        public Startup(IHostingEnvironment env, IConfiguration config, ILoggerFactory loggerFactory)
         {
-            Configuration = configuration;
+            _env = env;
+            _config = config;
+            _loggerFactory = loggerFactory;
         }
 
         public IConfiguration Configuration { get; }
 
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-
+            services.AddMvc(options =>
+            {
+                options.Filters.Add<ApiExceptionFilter>();
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Resilient Integration API", Version = "v1" });
             });
 
+            services.AddAutoMapper(typeof(Startup));
             services.AddMassTransit(cfg =>
             {
                 cfg.AddBus(CreateBus);
             });
+
+            var builder = new ContainerBuilder();
+            builder.Populate(services);
+            builder.RegisterModule(new ApiModule());
+            var container = builder.Build();
+            return new AutofacServiceProvider(container);
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseSwagger();
 
@@ -55,10 +69,7 @@ namespace WebApi
                 c.RoutePrefix = string.Empty;
             });
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseMvcWithDefaultRoute();
         }
 
         IBusControl CreateBus(IServiceProvider serviceProvider)
@@ -67,10 +78,6 @@ namespace WebApi
             {
                 cfg.Host("rabbitmq://localhost:15672");
             });
-        }
-
-        void ConfigureMassTransit(IServiceCollectionConfigurator configurator)
-        {
         }
     }
 }

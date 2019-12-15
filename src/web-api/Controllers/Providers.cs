@@ -1,46 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using ResilientIntegration.Api.Model;
+using ResilientIntegration.Core.Commands;
+using System;
+using System.Threading.Tasks;
 
 namespace ResilientIntegration.Api.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")]
-    public class Providers : Controller
+    public class Providers : ControllerBase
     {
-        // GET: api/<controller>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly IMapper _mapper;
+
+        public Providers(IMapper mapper)
         {
-            return new string[] { "value1", "value2" };
+            _mapper = mapper;
         }
 
-        // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<controller>
         [HttpPost]
-        public void Post([FromBody]string value)
+        public async Task<ActionResult<string>> Post([FromBody]UploadProvidersRequest providers)
         {
-        }
-
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            var command = _mapper.Map<UploadProvidersCommand>(providers);
+            Console.Write(command);
+            return Ok("Success");
         }
     }
 }
