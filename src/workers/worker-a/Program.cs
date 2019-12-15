@@ -2,10 +2,13 @@ using Autofac.Extensions.DependencyInjection;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using System.Reflection;
 using Autofac;
 using ResilientIntegration.Core.Infrastructure;
+using Serilog;
+using Serilog.Events;
+using Microsoft.Extensions.Configuration;
+using MassTransit.Context;
 
 namespace ResilientIntegration.WorkerA
 {
@@ -13,6 +16,13 @@ namespace ResilientIntegration.WorkerA
     {
         public static void Main(string[] args)
         {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .CreateLogger();
+            Log.Information("Starting WorkerA host");
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -23,20 +33,27 @@ namespace ResilientIntegration.WorkerA
                     builder.RegisterModule<WorkerAModule>();
                     builder.RegisterModule<BusModule>();
                 }))
-                .ConfigureLogging((logging) =>
+                .ConfigureLogging(loggingBuilder =>
                 {
-                    logging.ClearProviders();
-                    logging.AddConsole();
+                    LogContext.ConfigureCurrentLogContext();
+                    var configuration = new ConfigurationBuilder()
+                        .AddJsonFile("appsettings.json")
+                        .Build();
+                    var logger = new LoggerConfiguration()
+                        .ReadFrom.Configuration(configuration)
+                        .CreateLogger();
+                    loggingBuilder.AddSerilog(logger, dispose: true);
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddAutofac();
-                    services.AddLogging();
                     services.AddMassTransit(mt =>
                     {
                         mt.AddConsumers(Assembly.GetExecutingAssembly());
                     });
                     services.AddHostedService<Worker>();
-                });
+                })
+                .UseSerilog();
+
     }
 }

@@ -7,24 +7,24 @@ namespace ResilientIntegration.Core.Infrastructure
     {
         protected override void Load(ContainerBuilder builder)
         {
-                builder.Register(context =>
+            builder.Register(context =>
+            {
+                return Bus.Factory.CreateUsingRabbitMq(cfg =>
                 {
-                    return Bus.Factory.CreateUsingRabbitMq(cfg =>
+                    cfg.Host("rabbitmq://localhost:5672", host =>
                     {
-                        cfg.Host("rabbitmq://localhost:5672", host =>
-                        {
-                            host.Username("guest");
-                            host.Password("guest");
-                        });
-                        cfg.ReceiveEndpoint("resilient-integration", ec =>
-                        {
-                            ec.ConfigureConsumers(context);
-                        });
+                        host.Username("guest");
+                        host.Password("guest");
                     });
-                })
-                .SingleInstance()
-                .As<IBusControl>()
-                .As<IBus>();
+                    cfg.ReceiveEndpoint("resilient-integration", ec =>
+                    {
+                        ec.ConfigureConsumers(context);
+                    });
+                });
+            })
+            .SingleInstance()
+            .As<IBusControl>()
+            .As<IBus>();
         }
     }
 }

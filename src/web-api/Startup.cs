@@ -14,6 +14,7 @@ using ResilientIntegration.Api.Filters;
 using ResilientIntegration.Core;
 using ResilientIntegration.Api.Infrastructure;
 using ResilientIntegration.Core.Infrastructure;
+using Serilog;
 
 namespace WebApi
 {
@@ -44,7 +45,7 @@ namespace WebApi
             });
 
             services.AddAutoMapper(typeof(Startup));
-            services.AddMassTransit(MassTransitConfig.Configure);
+            services.AddMassTransit();
 
             var builder = new ContainerBuilder();
             builder.Populate(services);
@@ -60,6 +61,8 @@ namespace WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSerilogRequestLogging();
 
             app.UseSwagger();
 
