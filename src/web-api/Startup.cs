@@ -8,11 +8,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using System;
 using Microsoft.Extensions.Logging;
-using ResilientIntegration.Api;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 using ResilientIntegration.Api.Filters;
 using ResilientIntegration.Core;
+using ResilientIntegration.Api.Infrastructure;
+using ResilientIntegration.Core.Infrastructure;
 
 namespace WebApi
 {
@@ -48,6 +49,7 @@ namespace WebApi
             var builder = new ContainerBuilder();
             builder.Populate(services);
             builder.RegisterModule(new ApiModule());
+            builder.RegisterModule(new BusModule());
             var container = builder.Build();
             return new AutofacServiceProvider(container);
         }

@@ -1,7 +1,7 @@
 ﻿using MassTransit;
 using MassTransit.ExtensionsDependencyInjectionIntegration;
+using MassTransit.RabbitMqTransport;
 using System;
-using System.Threading.Tasks;
 
 namespace ResilientIntegration.Core
 {
@@ -16,14 +16,19 @@ namespace ResilientIntegration.Core
         {
             var bus = Bus.Factory.CreateUsingRabbitMq(cfg =>
             {
-                cfg.Host("rabbitmq://localhost:5672", host =>
-                {
-                    host.Username("guest");
-                    host.Password("guest");
-                });
+                ConfigureBus(cfg);
             });
             bus.Start();
             return bus;
+        }
+
+        public static void ConfigureBus(IRabbitMqBusFactoryConfigurator cfg)
+        {
+            cfg.Host("rabbitmq://localhost:5672", host =>
+            {
+                host.Username("guest");
+                host.Password("guest");
+            });
         }
     }
 }

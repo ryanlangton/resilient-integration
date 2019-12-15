@@ -2,9 +2,10 @@ using Autofac.Extensions.DependencyInjection;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ResilientIntegration.Core;
-using ResilientIntegration.WorkerA.Consumers;
+using Microsoft.Extensions.Logging;
 using System.Reflection;
+using Autofac;
+using ResilientIntegration.Core.Infrastructure;
 
 namespace ResilientIntegration.WorkerA
 {
@@ -17,19 +18,23 @@ namespace ResilientIntegration.WorkerA
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+                .UseServiceProviderFactory(new AutofacServiceProviderFactory((builder) =>
+                {
+                    builder.RegisterModule<WorkerAModule>();
+                    builder.RegisterModule<BusModule>();
+                }))
+                .ConfigureLogging((logging) =>
+                {
+                    logging.ClearProviders();
+                    logging.AddConsole();
+                })
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.AddMassTransit(cfg =>
+                    services.AddAutofac();
+                    services.AddLogging();
+                    services.AddMassTransit(mt =>
                     {
-                        cfg.AddBus(MassTransitConfig.CreateBus);
-                        //cfg.ReceiveEndpoint(host, "event_queue", e =>
-                        //{
-                        //    e.Handler<ValueEntered>(context =>
-                        //        Console.Out.WriteLineAsync($"Value was entered: {context.Message.Value}"));
-                        //})
-                        cfg.AddConsumer<UploadProvidersConsumer>();
-                        //cfg.AddConsumers(Assembly.GetExecutingAssembly());
+                        mt.AddConsumers(Assembly.GetExecutingAssembly());
                     });
                     services.AddHostedService<Worker>();
                 });

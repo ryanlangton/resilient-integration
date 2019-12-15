@@ -18,7 +18,6 @@ namespace ResilientIntegration.WorkerA.Definitions
             IReceiveEndpointConfigurator endpointConfigurator,
             IConsumerConfigurator<UploadProvidersConsumer> consumerConfigurator)
         {
-            endpointConfigurator.UseInMemoryOutbox();
             endpointConfigurator.UseMessageRetry(r => r.Interval(3, 1000));
         }
     }
