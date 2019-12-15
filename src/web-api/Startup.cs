@@ -12,6 +12,7 @@ using ResilientIntegration.Api;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 using ResilientIntegration.Api.Filters;
+using ResilientIntegration.Core;
 
 namespace WebApi
 {
@@ -42,10 +43,7 @@ namespace WebApi
             });
 
             services.AddAutoMapper(typeof(Startup));
-            services.AddMassTransit(cfg =>
-            {
-                cfg.AddBus(CreateBus);
-            });
+            services.AddMassTransit(MassTransitConfig.Configure);
 
             var builder = new ContainerBuilder();
             builder.Populate(services);
@@ -70,14 +68,6 @@ namespace WebApi
             });
 
             app.UseMvcWithDefaultRoute();
-        }
-
-        IBusControl CreateBus(IServiceProvider serviceProvider)
-        {
-            return Bus.Factory.CreateUsingRabbitMq(cfg =>
-            {
-                cfg.Host("rabbitmq://localhost:15672");
-            });
         }
     }
 }

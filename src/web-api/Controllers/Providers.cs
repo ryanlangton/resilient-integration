@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using ResilientIntegration.Api.Model;
 using ResilientIntegration.Core.Commands;
@@ -11,10 +12,12 @@ namespace ResilientIntegration.Api.Controllers
     [Route("api/[controller]")]
     public class Providers : ControllerBase
     {
+        private readonly IBus _bus;
         private readonly IMapper _mapper;
 
-        public Providers(IMapper mapper)
+        public Providers(IMapper mapper, IBus bus)
         {
+            _bus = bus;
             _mapper = mapper;
         }
 
@@ -23,6 +26,7 @@ namespace ResilientIntegration.Api.Controllers
         {
             var command = _mapper.Map<UploadProvidersCommand>(providers);
             Console.Write(command);
+            await _bus.Publish(command);
             return Ok("Success");
         }
     }

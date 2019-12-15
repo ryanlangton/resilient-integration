@@ -2,8 +2,8 @@ using Autofac.Extensions.DependencyInjection;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ResilientIntegration.Core;
 using ResilientIntegration.WorkerA.Consumers;
-using System;
 using System.Reflection;
 
 namespace ResilientIntegration.WorkerA
@@ -22,25 +22,16 @@ namespace ResilientIntegration.WorkerA
                 {
                     services.AddMassTransit(cfg =>
                     {
-                        cfg.AddBus(CreateBus);
-                        cfg.AddConsumers(Assembly.GetExecutingAssembly());
+                        cfg.AddBus(MassTransitConfig.CreateBus);
+                        //cfg.ReceiveEndpoint(host, "event_queue", e =>
+                        //{
+                        //    e.Handler<ValueEntered>(context =>
+                        //        Console.Out.WriteLineAsync($"Value was entered: {context.Message.Value}"));
+                        //})
+                        cfg.AddConsumer<UploadProvidersConsumer>();
+                        //cfg.AddConsumers(Assembly.GetExecutingAssembly());
                     });
                     services.AddHostedService<Worker>();
                 });
-
-        public static IBusControl CreateBus(IServiceProvider provider)
-        {
-            return Bus.Factory.CreateUsingRabbitMq(cfg =>
-            {
-                cfg.Host("rabbitmq://localhost:15672");
-
-                cfg.ReceiveEndpoint("upload-providers", ep =>
-                {
-                    ep.PrefetchCount = 16;
-                    ep.ConfigureConsumer<UploadProvidersConsumer>(provider);
-                });
-                
-            });
-        }
     }
 }
