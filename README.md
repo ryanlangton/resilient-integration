@@ -8,6 +8,12 @@ Architecture:
 
 ![architecture](images/architecture.png)
 
+# Sagas
+
+Sagas can be used to support multi step processes with resiliency and recoverability between each step.
+
+![saga](images/saga.png)
+
 # Assumption
 
 <em>"If anything can go wrong, it will." - Murphy's Law</em>
