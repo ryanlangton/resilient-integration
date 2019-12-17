@@ -19,7 +19,8 @@ namespace ResilientIntegration.WorkerA.Consumers
 
         public async Task Consume(ConsumeContext<UploadProvidersCommand> context)
         {
-            //throw new Exception("some random exception happened!");
+            // _logger.LogError("something bad happened!");
+            // throw new Exception();
             var filePath = Path.GetTempFileName();
             var outFile = File.Create($"{filePath}.json");
             var writer = new StreamWriter(outFile);

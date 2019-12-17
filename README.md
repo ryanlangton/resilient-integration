@@ -1,6 +1,6 @@
 # resilient-integration
 
-Ironclad integration architecture, developer and ops friendly. Uses [MassTransit](masstransit-project.com) for integrations.
+Ironclad integration architecture, developer and ops friendly. Uses [MassTransit](http://masstransit-project.com) for integrations.
 
 This project is an example architecture for system integrations. It uses Web API and message queueing to create a system completely resilient to any failures. Message handlers can be easily moved across workers, workers can be scaled up and/or out, and no attempts to run integration processing will ever be lost.
 

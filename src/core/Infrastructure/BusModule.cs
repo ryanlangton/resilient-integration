@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using MassTransit;
+using MassTransit.Azure.ServiceBus.Core;
 using Microsoft.Extensions.Logging;
 
 namespace ResilientIntegration.Core.Infrastructure
@@ -24,6 +25,20 @@ namespace ResilientIntegration.Core.Infrastructure
                     var logFactory = context.Resolve<ILoggerFactory>();
                     cfg.SetLoggerFactory(logFactory);
                 });
+                //return Bus.Factory.CreateUsingAzureServiceBus(cfg =>
+                //{
+                //    cfg.Host("www://azure-endpoint", host =>
+                //    {
+                //        host.Username("guest");
+                //        host.Password("guest");
+                //    });
+                //    cfg.ReceiveEndpoint("resilient-integration", ec =>
+                //    {
+                //        ec.ConfigureConsumers(context);
+                //    });
+                //    var logFactory = context.Resolve<ILoggerFactory>();
+                //    cfg.SetLoggerFactory(logFactory);
+                //});
             })
             .SingleInstance()
             .As<IBusControl>()
