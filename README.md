@@ -22,7 +22,7 @@ No system (even our own code) is immune to unforeseen errors. By moving failure 
 
 # Run instructions
 
-- Install prerequisites Node.js, docker, docker-machine, powershell
+- Install prerequisites Node.js and docker
 - From command line, run `docker-compose up`
 - Debug ResilientIntegration.Api (Web), and ResilientIntegration.Worker* (Workers)
 
