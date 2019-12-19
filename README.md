@@ -8,9 +8,15 @@ Architecture:
 
 ![architecture](images/architecture.png)
 
-# Sagas
+# Workflow
 
-Sagas can be used to support multi step processes with resiliency and recoverability between each step.
+Multi step processes can have resiliency and recoverability between each step by using the service bus.
+
+![workflow](images/workflow.png)
+
+# Saga
+
+Saga's are when multiple actions have dependencies on each other. For example, an multiple upload process, we could wait for an "upload complete" action before proceeding with processing.
 
 ![saga](images/saga.png)
 
